@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantix - Login</title>
+</head>
+<body>
+    <main class="login-container">
+        <h1>Bienvenido a Quantix!</h1>
+        <form id="loginForm" class="login-form">
+            <div class="input-groud">
+                <label for="emailLogin">Email</label>
+                <input type="email" name="email" id="emailLogin" placeholder="example@quantix.com" required>
+            </div>
+            
+            <div class="input-groud">
+                <label for="passwordLogin">Password</label>
+                <input type="password" name="password" id="passwordLogin" placeholder="***********" required>
+            </div>
+
+            <button id="btnLogin" type="submit">Ingresar</button>
+
+            <p id="errorMessage" class="error-text" style="display: none; color: red;"></p>
+        </form>
+    </main>
+
+    <script src="/js/login.js" defer></script>
+</body>
+</html>
