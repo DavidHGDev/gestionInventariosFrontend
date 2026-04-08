@@ -1,27 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantix - Login</title>
+    <title>Quantix - Iniciar Sesión</title>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
+
     <main class="login-container">
-        <h1>Bienvenido a Quantix!</h1>
-        <form id="loginForm" class="login-form">
-            <div class="input-groud">
-                <label for="emailLogin">Email</label>
-                <input type="email" name="email" id="emailLogin" placeholder="example@quantix.com" required>
+        <form id="loginForm" class="login-card">
+            
+            <div class="brand-header">
+                <h2>Quantix Store</h2>
+                <p>Ingresa tus credenciales para continuar</p>
+            </div>
+
+            <div class="floating-group">
+                <input type="email" id="email" name="email" class="floating-input" placeholder=" " required>
+                <label for="email" class="floating-label">Correo Electrónico</label>
             </div>
             
-            <div class="input-groud">
-                <label for="passwordLogin">Password</label>
-                <input type="password" name="password" id="passwordLogin" placeholder="***********" required>
+            <div class="floating-group">
+                <input type="password" id="password" name="password" class="floating-input" placeholder=" " required>
+                <label for="password" class="floating-label">Contraseña</label>
             </div>
 
-            <button id="btnLogin" type="submit">Ingresar</button>
+            <p id="errorMessage" class="error-text" style="display: none;"></p>
 
-            <p id="errorMessage" class="error-text" style="display: none; color: red;"></p>
+            <button type="submit" id="btnLogin" class="btn-primary">Iniciar Sesión</button>
+            
         </form>
     </main>
 

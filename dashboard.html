@@ -1,13 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Quantix - Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
-    <main class="desboard-container">
-        <h1>hola, vienvenido al Dashboard</h1>
-    </main>
+
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>Quantix Store</h2>
+            <button id="btnCloseMenu" class="close-menu-btn">&times;</button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul id="navMenu">
+                <li><a href="#" class="active">📊 Resumen</a></li>
+                <li><a href="#">📦 Inventario</a></li>
+                <li><a href="#">👥 Clientes</a></li>
+                <li id="menuUsuarios" style="display: none;"><a href="#">⚙️ Usuarios</a></li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button id="btnLogout" class="btn-logout">Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <div class="main-wrapper">
+
+        <header class="top-header">
+            <div class="header-left">
+                <button id="btnOpenMenu" class="hamburger-btn">☰</button>
+                <h1 class="page-title">Dashboard</h1>
+            </div>
+            
+            <div class="header-profile">
+                <div class="profile-info">
+                    <span id="userNameDisplay" class="user-name">Cargando...</span>
+                    <span id="userRoleBadge" class="user-role">...</span>
+                </div>
+                <div class="avatar">Q</div>
+            </div>
+        </header>
+
+        <main class="dashboard-content">
+            
+            <section class="metrics-grid">
+                <article class="metric-card">
+                    <div class="metric-icon">📦</div>
+                    <div class="metric-data">
+                        <h3>Productos Activos</h3>
+                        <p id="metricProducts">--</p>
+                    </div>
+                </article>
+                
+                <article class="metric-card warning">
+                    <div class="metric-icon">⚠️</div>
+                    <div class="metric-data">
+                        <h3>Stock Crítico</h3>
+                        <p id="metricLowStock">--</p>
+                    </div>
+                </article>
+                
+                <article class="metric-card success">
+                    <div class="metric-icon">👥</div>
+                    <div class="metric-data">
+                        <h3>Clientes Registrados</h3>
+                        <p id="metricClients">--</p>
+                    </div>
+                </article>
+            </section>
+
+            <section class="data-section">
+                <div class="section-header">
+                    <h2>Últimos Movimientos</h2>
+                    <button id="btnNewAction" class="btn-primary">+ Nuevo Registro</button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Descripción</th>
+                                <th>Categoría</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody">
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">Cargando datos del servidor...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="/js/dashboard.js" defer></script>
 </body>
 </html>

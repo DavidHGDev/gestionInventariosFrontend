@@ -1,50 +1,46 @@
-const formLogin = document.querySelector('#loginForm');
-const errorMessage = document.querySelector('#errorMessage');
-const btnLogin = document.querySelector('#btnLogin');
+const formLogin = document.getElementById('loginForm');
+const errorMessage = document.getElementById('errorMessage');
+const btnLogin = document.getElementById('btnLogin');
 
-formLogin.addEventListener('submit', async(event) => {
-    event.preventDefault(); //evita que el navegador recarga la página
+formLogin.addEventListener('submit', async (event) => {
+    event.preventDefault(); 
 
+    // Resetear estados
     errorMessage.style.display = 'none';
-    btnLogin.textContent = 'Cargando...';
+    btnLogin.textContent = 'Autenticando...';
     btnLogin.disabled = true;
 
     try {
-        const formData = new FormData(formLogin); //extraemos los datos de un golpe.
-        const datosDelFormulario = Object.fromEntries(formData); //convertimos a un json perfecto. 
+        const formData = new FormData(formLogin);
+        const datosDelFormulario = Object.fromEntries(formData); 
 
-        //Lo mágico, cruzamos el puente entre el fronted y el backend
-        const respuesta = await fetch('http://localhost:3007/api/login', {
+        const respuesta = await fetch('http://localhost:3007/api/login', { 
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' //explicamos al backend que le mandamos un json como tipo de dato
+                'Content-Type': 'application/json' 
             }, 
             body: JSON.stringify(datosDelFormulario)
-        })
+        });
 
         const result = await respuesta.json();
 
-        //Evaluar la respuesta si tiene error y mostrarlo en pantalla
-        if(!respuesta.ok){
-            errorMessage.textContent = result.message || result.errors[0].message;
+        // Validar errores del backend (Zod o Credenciales inválidas)
+        if (!respuesta.ok) {
+            errorMessage.textContent = result.message || (result.errors ? result.errors[0].message : 'Error desconocido');
             errorMessage.style.display = 'block'; 
-            return; //detenemos la ejecución.
+            return; 
         }
 
-        // si ingresamos sin problema
-        console.log('login exitoso, backend nos dejó entrar', result);
-
-        sessionStorage.setItem('token', result.token); // guardamos el token para utilizarlo luego
-        window.location.href = '/dashboard.html' // re-dirigimos a la página principal 
+        // Éxito: Guardar token y redirigir
+        sessionStorage.setItem('token', result.token); 
+        window.location.href = '/dashboard.html'; 
 
     } catch (error) {
-        console.log('Error crítico de red', error); // por lo general, server apagado
-        errorMessage.textContent = 'Error de conexión con el servidor';
-        errorMessage.style.display = 'block'
+        console.error('Error crítico de red', error); 
+        errorMessage.textContent = 'No se pudo conectar con el servidor.';
+        errorMessage.style.display = 'block';
     } finally {
-        //sea un error o éxito en la petición, devolvemos el botón a la normalidad
-        btnLogin.textContent = 'Ingresar';
+        btnLogin.textContent = 'Iniciar Sesión';
         btnLogin.disabled = false;
     }
-
-})
+});
