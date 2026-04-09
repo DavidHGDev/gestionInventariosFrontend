@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantix - Clientes</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/crud.css"> </head>
+<body>
+
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>Quantix Store</h2>
+            <button id="btnCloseMenu" class="close-menu-btn">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul id="navMenu">
+                <li><a href="dashboard.html">📊 Resumen</a></li>
+                <li><a href="#">📦 Inventario</a></li>
+                <li><a href="clients.html" class="active">👥 Clientes</a></li>
+                <li id="menuUsuarios"><a href="users.html">⚙️ Usuarios</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="btnLogout" class="btn-logout">Cerrar Sesión</button>
+        </div>
+    </aside>
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <div class="main-wrapper">
+        <header class="top-header">
+            <div class="header-left">
+                <button id="btnOpenMenu" class="hamburger-btn">☰</button>
+                <h1 class="page-title">Gestión de Clientes</h1>
+            </div>
+            <div class="header-profile">
+                <span id="userNameDisplay" class="user-name">Cargando...</span>
+                <div class="avatar">Q</div>
+            </div>
+        </header>
+
+        <main class="dashboard-content">
+            <section class="data-section">
+                <div class="section-header">
+                    <h2>Directorio de Clientes</h2>
+                    <button id="btnNewClient" class="btn-primary">+ Nuevo Cliente</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre / Empresa</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Dirección</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                            <tr><td colspan="6" class="text-center text-muted">Cargando clientes...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="clientModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Nuevo Cliente</h2>
+                <button id="btnCloseModal" class="close-modal">&times;</button>
+            </div>
+
+            <form id="clientForm" class="modal-form">
+                <input type="hidden" id="clientId" name="id">
+
+                <div class="floating-group">
+                    <input type="text" id="name" name="name" class="floating-input" placeholder=" " required>
+                    <label for="name" class="floating-label">Nombre Completo o Empresa *</label>
+                </div>
+
+                <div class="floating-group">
+                    <input type="email" id="email" name="email" class="floating-input" placeholder=" ">
+                    <label for="email" class="floating-label">Correo Electrónico</label>
+                </div>
+
+                <div class="floating-group">
+                    <input type="text" id="phone" name="phone" class="floating-input" placeholder=" ">
+                    <label for="phone" class="floating-label">Teléfono / Celular</label>
+                </div>
+
+                <div class="floating-group">
+                    <input type="text" id="address" name="address" class="floating-input" placeholder=" ">
+                    <label for="address" class="floating-label">Dirección (Ej. El Santuario, Centro)</label>
+                </div>
+
+                <p id="formError" class="error-text" style="display: none;"></p>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnCancel" class="btn-secondary">Cancelar</button>
+                    <button type="submit" id="btnSave" class="btn-primary">Guardar Cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="js/clients.js" defer></script>
+</body>
+</html>
