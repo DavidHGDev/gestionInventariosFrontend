@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantix - Clientes</title>
+    <title>Quantix - Categorías</title>
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/crud.css">
 </head>
@@ -21,9 +21,9 @@
                 
                 <li><a href="sales.html">💰 Ventas</a></li>
                 <li><a href="inventory.html">📦 Productos</a></li>
-                <li><a href="categories.html">📂 Categorías</a></li>
+                <li><a href="categories.html" class="active">📂 Categorías</a></li>
                 <li><a href="providers.html">🚚 Proveedores</a></li>
-                <li><a href="clients.html" class="active">👥 Clientes</a></li>
+                <li><a href="clients.html">👥 Clientes</a></li>
 
                 <li id="menuUsuarios" style="display: none;">
                     <a href="users.html">⚙️ Gestión de Usuarios</a>
@@ -40,7 +40,7 @@
         <header class="top-header">
             <div class="header-left">
                 <button id="btnOpenMenu" class="hamburger-btn">☰</button>
-                <h1 class="page-title">Gestión de Clientes</h1>
+                <h1 class="page-title">Categorías de Productos</h1>
             </div>
             <div class="header-profile">
                 <div class="profile-info" style="text-align: right; margin-right: 10px;">
@@ -53,23 +53,25 @@
         <main class="dashboard-content">
             <section class="data-section">
                 <div class="section-header">
-                    <h2>Directorio de Clientes</h2>
-                    <button id="btnNewClient" class="btn-primary">+ Nuevo Cliente</button>
+                    <div class="search-box">
+                        <input type="text" id="categorySearch" placeholder="Buscar categoría...">
+                    </div>
+                    <button id="btnNewCategory" class="btn-primary">+ Nueva Categoría</button>
                 </div>
+
                 <div class="table-responsive">
                     <table class="modern-table">
                         <thead>
                             <tr>
-                                <th>Tipo</th>
-                                <th>Documento</th>
-                                <th>Nombre / Razón Social</th>
-                                <th>Teléfono</th>
-                                <th>Email</th>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Total Productos</th> 
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="clientsTableBody">
-                            <tr><td colspan="6" class="text-center text-muted">Cargando clientes...</td></tr>
+                        <tbody id="categoryTableBody">
+                            <tr><td colspan="5" class="text-center">Cargando categorías...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -77,57 +79,30 @@
         </main>
     </div>
 
-    <div id="clientModal" class="modal-overlay">
+    <div id="categoryModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">Nuevo Cliente</h2>
+                <h2 id="modalTitle">Nueva Categoría</h2>
                 <button id="btnCloseModal" class="close-modal">&times;</button>
             </div>
-
-            <form id="clientForm" class="modal-form">
-                <input type="hidden" id="clientId" name="id">
-
-                <div class="select-group">
-                    <label for="tipoDocument">Tipo de Documento *</label>
-                    <select id="tipoDocument" name="tipoDocument" required>
-                        <option value="CC">CC - Cédula de Ciudadanía</option>
-                        <option value="TI">TI - Tarjeta de Identidad</option>
-                        <option value="CE">CE - Cédula de Extranjería</option>
-                        <option value="PPT">PPT - Permiso por Protección Temporal</option>
-                        <option value="NIP">NIP - Número de Identificación Tributaria</option>
-                    </select>
-                </div>
-
-                <div class="floating-group">
-                    <input type="text" id="document" name="document" class="floating-input" placeholder=" " required>
-                    <label for="document" class="floating-label">Número de Documento *</label>
-                </div>
-
+            <form id="categoryForm" class="modal-form">
+                <input type="hidden" id="categoryId" name="id">
                 <div class="floating-group">
                     <input type="text" id="name" name="name" class="floating-input" placeholder=" " required>
-                    <label for="name" class="floating-label">Nombre Completo o Empresa *</label>
+                    <label for="name" class="floating-label">Nombre de la Categoría</label>
                 </div>
-
                 <div class="floating-group">
-                    <input type="text" id="phone" name="phone" class="floating-input" placeholder=" ">
-                    <label for="phone" class="floating-label">Teléfono / Celular</label>
+                    <textarea id="description" name="description" class="floating-input" style="height: 100px; padding-top: 20px;" placeholder=" "></textarea>
+                    <label for="description" class="floating-label">Descripción (Opcional)</label>
                 </div>
-
-                <div class="floating-group">
-                    <input type="email" id="email" name="email" class="floating-input" placeholder=" ">
-                    <label for="email" class="floating-label">Correo Electrónico</label>
-                </div>
-
-                <p id="formError" class="error-text" style="display: none;"></p>
-
                 <div class="modal-footer">
                     <button type="button" id="btnCancel" class="btn-secondary">Cancelar</button>
-                    <button type="submit" id="btnSave" class="btn-primary">Guardar Cliente</button>
+                    <button type="submit" class="btn-primary">Guardar</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script type="module" src="js/clients.js" defer></script>
+    <script type="module" src="js/categories.js" defer></script>
 </body>
 </html>

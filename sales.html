@@ -26,10 +26,17 @@
         <nav class="sidebar-nav">
             <ul id="navMenu">
                 <li><a href="dashboard.html">📊 Resumen</a></li>
+                <li><a href="profile.html">👤 Mi Perfil</a></li>
+                
                 <li><a href="sales.html" class="active">💰 Ventas</a></li>
-                <li><a href="#">📦 Inventario</a></li>
+                <li><a href="inventory.html">📦 Productos</a></li>
+                <li><a href="categories.html">📂 Categorías</a></li>
+                <li><a href="providers.html">🚚 Proveedores</a></li>
                 <li><a href="clients.html">👥 Clientes</a></li>
-                <li id="menuUsuarios"><a href="users.html">⚙️ Usuarios</a></li>
+
+                <li id="menuUsuarios" style="display: none;">
+                    <a href="users.html">⚙️ Gestión de Usuarios</a>
+                </li>
             </ul>
         </nav>
         <div class="sidebar-footer">
@@ -45,7 +52,9 @@
                 <h1 class="page-title">Caja Registradora</h1>
             </div>
             <div class="header-profile">
-                <span id="userNameDisplay" class="user-name">Cargando...</span>
+                <div class="profile-info" style="text-align: right; margin-right: 10px;">
+                    <span id="userNameDisplay" class="user-name" style="color: var(--text-color);">Cargando...</span>
+                </div>
                 <div class="avatar">Q</div>
             </div>
         </header>
@@ -54,7 +63,7 @@
             <section class="data-section">
                 <div class="section-header">
                     <h2>Historial de Transacciones</h2>
-                    <button id="btnNewSale" class="btn-primary">+ Nueva Venta (POS)</button>
+                    <button id="btnNewSale" class="btn-primary">💰 Nueva Venta (POS)</button>
                 </div>
                 <div class="table-responsive">
                     <table class="modern-table">

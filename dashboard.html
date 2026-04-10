@@ -16,10 +16,18 @@
         
         <nav class="sidebar-nav">
             <ul id="navMenu">
-                <li><a href="#" class="active">📊 Resumen</a></li>
-                <li><a href="/profile.html">Profile</a></li>
-                <li><a href="/clients.html">👥 Clientes</a></li>
-                <li id="menuUsuarios" style="display: none;"><a href="users.html">⚙️ Usuarios</a></li>
+                <li><a href="dashboard.html" class="active">📊 Resumen</a></li>
+                <li><a href="profile.html">👤 Mi Perfil</a></li>
+                
+                <li><a href="sales.html">💰 Ventas</a></li>
+                <li><a href="inventory.html">📦 Productos</a></li>
+                <li><a href="categories.html">📂 Categorías</a></li>
+                <li><a href="providers.html">🚚 Proveedores</a></li>
+                <li><a href="clients.html">👥 Clientes</a></li>
+
+                <li id="menuUsuarios" style="display: none;">
+                    <a href="users.html">⚙️ Gestión de Usuarios</a>
+                </li>
             </ul>
         </nav>
 
@@ -104,6 +112,6 @@
         </main>
     </div>
 
-    <script src="/js/dashboard.js" defer></script>
+    <script type="module" src="/js/dashboard.js" defer></script>
 </body>
 </html>
