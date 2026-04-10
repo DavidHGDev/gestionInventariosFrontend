@@ -6,7 +6,7 @@ const token = sessionStorage.getItem('token');
 
 if (!token) {
     // Si no hay token, lo devolvemos al login INMEDIATAMENTE
-    window.location.href = '/login.html';
+    window.location.href = '/index.html';
 }
 
 // ==========================================

@@ -1,20 +1,15 @@
-// js/clients.js
 import { verificarAutenticacion, cerrarSesion } from './utils/auth.js';
 
-// 1. EL GUARDIA (Importado, limpio y reutilizable)
 const token = verificarAutenticacion();
-const URL_API = 'http://localhost:3007/api/clients'; // Ajusta la ruta si es diferente en tu backend
+const URL_API = 'http://localhost:3007/api/clients'; // Ajusta si la ruta es otra
 
-// 2. ELEMENTOS DEL DOM
+// DOM Elements
 const clientsTableBody = document.getElementById('clientsTableBody');
 const modal = document.getElementById('clientModal');
 const clientForm = document.getElementById('clientForm');
 const modalTitle = document.getElementById('modalTitle');
 const formError = document.getElementById('formError');
 
-// ==========================================
-// INICIALIZACIÓN
-// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     cargarClientes();
     
@@ -33,13 +28,12 @@ async function cargarClientes() {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        if (!respuesta.ok) throw new Error("No autorizado");
+        if (!respuesta.ok) throw new Error("Error al cargar clientes");
 
         const clientes = await respuesta.json();
         dibujarTabla(clientes);
     } catch (error) {
-        alert("Sesión expirada o error de red.");
-        cerrarSesion();
+        console.error(error);
     }
 }
 
@@ -54,11 +48,11 @@ function dibujarTabla(clientes) {
     clientes.forEach(cliente => {
         const fila = document.createElement('tr');
         fila.innerHTML = `
-            <td>#${cliente.id}</td>
+            <td><span style="font-weight: bold; color: var(--primary-color);">${cliente.tipoDocument}</span></td>
+            <td>${cliente.document}</td>
             <td><strong>${cliente.name}</strong></td>
-            <td>${cliente.email || '<span class="text-muted">N/A</span>'}</td>
-            <td>${cliente.phone || '<span class="text-muted">N/A</span>'}</td>
-            <td>${cliente.address || '<span class="text-muted">N/A</span>'}</td>
+            <td>${cliente.phone || '<span class="text-muted">-</span>'}</td>
+            <td>${cliente.email || '<span class="text-muted">-</span>'}</td>
             <td>
                 <button class="action-btn btn-edit" onclick="abrirModalEdicion(${cliente.id})" title="Editar">✏️</button>
                 <button class="action-btn btn-delete" onclick="eliminarCliente(${cliente.id})" title="Eliminar">🗑️</button>
@@ -79,7 +73,6 @@ document.getElementById('btnNewClient').addEventListener('click', () => {
     modal.classList.add('active');
 });
 
-// Adjuntamos a window porque en módulos de JS las funciones son privadas por defecto
 window.abrirModalEdicion = async (id) => {
     try {
         const respuesta = await fetch(`${URL_API}/${id}`, {
@@ -87,11 +80,13 @@ window.abrirModalEdicion = async (id) => {
         });
         const cliente = await respuesta.json();
 
+        // Llenamos el formulario con los datos exactos del esquema
         document.getElementById('clientId').value = cliente.id;
+        document.getElementById('tipoDocument').value = cliente.tipoDocument;
+        document.getElementById('document').value = cliente.document;
         document.getElementById('name').value = cliente.name;
-        document.getElementById('email').value = cliente.email || '';
         document.getElementById('phone').value = cliente.phone || '';
-        document.getElementById('address').value = cliente.address || '';
+        document.getElementById('email').value = cliente.email || '';
         
         modalTitle.textContent = 'Editar Cliente';
         formError.style.display = 'none';
@@ -113,6 +108,10 @@ clientForm.addEventListener('submit', async (e) => {
     const datos = Object.fromEntries(formData);
     const idCliente = datos.id; 
 
+    // Limpiamos strings vacíos para que no fallen las validaciones de Prisma (ej. teléfono vacío en vez de null)
+    if (!datos.phone) delete datos.phone;
+    if (!datos.email) delete datos.email;
+
     const metodoHTTP = idCliente ? 'PATCH' : 'POST';
     const urlFinal = idCliente ? `${URL_API}/${idCliente}` : URL_API;
 
@@ -129,6 +128,7 @@ clientForm.addEventListener('submit', async (e) => {
         const resultado = await respuesta.json();
 
         if (!respuesta.ok) {
+            // Aquí atrapará el error de Prisma si intentas registrar un documento que ya existe
             formError.textContent = resultado.message || (resultado.errors ? resultado.errors[0].message : "Error al guardar");
             formError.style.display = 'block';
             return;
@@ -136,7 +136,7 @@ clientForm.addEventListener('submit', async (e) => {
 
         cerrarModal();
         cargarClientes(); 
-        alert(`Cliente ${idCliente ? 'actualizado' : 'creado'} exitosamente.`);
+        alert(`Cliente ${idCliente ? 'actualizado' : 'registrado'} exitosamente.`);
 
     } catch (error) {
         formError.textContent = "Error de conexión con el servidor";
@@ -148,7 +148,7 @@ clientForm.addEventListener('submit', async (e) => {
 // D: DELETE
 // ==========================================
 window.eliminarCliente = async (id) => {
-    if (!confirm("¿Eliminar definitivamente a este cliente? Esta acción no se puede deshacer.")) return;
+    if (!confirm("¿Eliminar definitivamente a este cliente? Podría fallar si tiene ventas asociadas.")) return;
 
     try {
         const respuesta = await fetch(`${URL_API}/${id}`, {
@@ -156,10 +156,13 @@ window.eliminarCliente = async (id) => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        if (respuesta.ok) cargarClientes();
-        else {
+        if (respuesta.ok) {
+            cargarClientes();
+        } else {
             const errorData = await respuesta.json();
-            alert(errorData.message || "Error al eliminar el cliente.");
+            // Prisma lanzará error de Foreign Key Constraint si el cliente ya tiene facturas.
+            // Es buena idea avisarle al usuario por qué no puede borrarlo.
+            alert(errorData.message || "No se puede eliminar el cliente porque ya tiene ventas o créditos registrados.");
         }
     } catch (error) {
         alert("Error de conexión");

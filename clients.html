@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quantix - Clientes</title>
     <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="css/crud.css"> </head>
+    <link rel="stylesheet" href="css/crud.css">
+</head>
 <body>
 
     <aside id="sidebar" class="sidebar">
@@ -16,6 +17,7 @@
         <nav class="sidebar-nav">
             <ul id="navMenu">
                 <li><a href="dashboard.html">📊 Resumen</a></li>
+                <li><a href="sales.html">💰 Ventas</a></li>
                 <li><a href="#">📦 Inventario</a></li>
                 <li><a href="clients.html" class="active">👥 Clientes</a></li>
                 <li id="menuUsuarios"><a href="users.html">⚙️ Usuarios</a></li>
@@ -49,11 +51,11 @@
                     <table class="modern-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Nombre / Empresa</th>
-                                <th>Email</th>
+                                <th>Tipo</th>
+                                <th>Documento</th>
+                                <th>Nombre / Razón Social</th>
                                 <th>Teléfono</th>
-                                <th>Dirección</th>
+                                <th>Email</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -76,14 +78,25 @@
             <form id="clientForm" class="modal-form">
                 <input type="hidden" id="clientId" name="id">
 
-                <div class="floating-group">
-                    <input type="text" id="name" name="name" class="floating-input" placeholder=" " required>
-                    <label for="name" class="floating-label">Nombre Completo o Empresa *</label>
+                <div class="select-group">
+                    <label for="tipoDocument">Tipo de Documento *</label>
+                    <select id="tipoDocument" name="tipoDocument" required>
+                        <option value="CC">CC - Cédula de Ciudadanía</option>
+                        <option value="TI">TI - Tarjeta de Identidad</option>
+                        <option value="CE">CE - Cédula de Extranjería</option>
+                        <option value="PPT">PPT - Permiso por Protección Temporal</option>
+                        <option value="NIP">NIP - Número de Identificación Tributaria</option>
+                    </select>
                 </div>
 
                 <div class="floating-group">
-                    <input type="email" id="email" name="email" class="floating-input" placeholder=" ">
-                    <label for="email" class="floating-label">Correo Electrónico</label>
+                    <input type="text" id="document" name="document" class="floating-input" placeholder=" " required>
+                    <label for="document" class="floating-label">Número de Documento *</label>
+                </div>
+
+                <div class="floating-group">
+                    <input type="text" id="name" name="name" class="floating-input" placeholder=" " required>
+                    <label for="name" class="floating-label">Nombre Completo o Empresa *</label>
                 </div>
 
                 <div class="floating-group">
@@ -92,8 +105,8 @@
                 </div>
 
                 <div class="floating-group">
-                    <input type="text" id="address" name="address" class="floating-input" placeholder=" ">
-                    <label for="address" class="floating-label">Dirección (Ej. El Santuario, Centro)</label>
+                    <input type="email" id="email" name="email" class="floating-input" placeholder=" ">
+                    <label for="email" class="floating-label">Correo Electrónico</label>
                 </div>
 
                 <p id="formError" class="error-text" style="display: none;"></p>
